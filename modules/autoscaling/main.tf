@@ -2,7 +2,7 @@ resource "aws_launch_template" "as_template" {
   name          = "as_template"
   image_id      = var.image_id
   instance_type = var.instance_type
-  key_name     = var.key_name
+  key_name      = var.key_name
 
   network_interfaces {
     associate_public_ip_address = true
@@ -28,20 +28,20 @@ resource "aws_launch_template" "as_template" {
 
 #create a autoscaling group
 resource "aws_autoscaling_group" "as-autoscaling" {
-  name = "as-autoscaling"
-  desired_capacity   = var.desired_capacity
-  max_size           = var.max_size
-  min_size           = var.min_size
+  name                      = "as-autoscaling"
+  desired_capacity          = var.desired_capacity
+  max_size                  = var.max_size
+  min_size                  = var.min_size
   health_check_grace_period = 300
-  health_check_type = "ELB"
-  vpc_zone_identifier = [var.subnet_id[0],var.subnet_id[1]]
+  health_check_type         = "ELB"
+  vpc_zone_identifier       = [var.subnet_id[0], var.subnet_id[1]]
 
   launch_template {
     id      = aws_launch_template.as_template.id
     version = "$Latest"
   }
 
-  target_group_arns = [ ]
+  target_group_arns = []
 
   enabled_metrics = [
     "GroupMinSize",
@@ -50,11 +50,11 @@ resource "aws_autoscaling_group" "as-autoscaling" {
     "GroupInServiceInstances",
     "GroupTotalInstances"
   ]
-   tags= [{
-    key = "Name"
-    value = "web-tier"
+  tags = [{
+    key                 = "Name"
+    value               = "web-tier"
     propagate_at_launch = true
-}]
+  }]
 }
 #scale up policy
 resource "aws_autoscaling_policy" "as-scaleup" {
@@ -110,7 +110,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_down_alarm" {
 }
 #Attachment of target group and autoscaling
 resource "aws_autoscaling_attachment" "as-attach" {
-    autoscaling_group_name              = aws_autoscaling_group.as-autoscaling.id
-    alb_target_group_arn                 = var.target_group_arn
-    # policy_arn                          = aws_autoscaling_policy.as_policy.arn
+  autoscaling_group_name = aws_autoscaling_group.as-autoscaling.id
+  alb_target_group_arn   = var.target_group_arn
+  # policy_arn                          = aws_autoscaling_policy.as_policy.arn
 }

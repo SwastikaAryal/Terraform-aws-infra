@@ -1,7 +1,7 @@
 resource "aws_security_group" "ec2-sg" {
   name        = "test-sg"
   description = "EC2 Security Group"
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
 
   # SSH rule
   ingress {
@@ -36,29 +36,29 @@ resource "aws_security_group" "ec2-sg" {
   }
 }
 
-resource  "aws_instance" "private_m1" {
-    ami = "ami-0fc5d935ebf8bc3bc"
-    instance_type = var.instance_type
-    subnet_id = var.private_subnet1
-    key_name = var.keypair
-    security_groups = [aws_security_group.ec2-sg.id]
-    # iam_instance_profile = aws_iam_instance_profile.ec2_profile.id
-    root_block_device {
-        volume_size = 8
-        volume_type = "gp3"
-        encrypted = true
-    }
-tags ={
-    Name = "application-tier"
+resource "aws_instance" "private_m1" {
+  ami             = "ami-0fc5d935ebf8bc3bc"
+  instance_type   = var.instance_type
+  subnet_id       = var.private_subnet
+  key_name        = var.keypair
+  security_groups = [aws_security_group.ec2-sg.id]
+  # iam_instance_profile = aws_iam_instance_profile.ec2_profile.id
+  root_block_device {
+    volume_size = 8
+    volume_type = "gp3"
+    encrypted   = true
+  }
+  tags = {
+    Name  = "application-tier-1"
     Owner = "adex"
 
-}
+  }
 }
 
 # resource  "aws_instance" "private_m2" {
 #     ami = "ami-0fc5d935ebf8bc3bc"
 #     instance_type = var.instance_type
-#     subnet_id = var.private_subnet2
+#     subnet_id = var.private_subnet[0]
 #     key_name = var.keypair
 #     security_groups = [aws_security_group.ec2-sg.id]
 #     # iam_instance_profile = aws_iam_instance_profile.ec2_profile.id
@@ -68,7 +68,7 @@ tags ={
 #         encrypted = true
 #     }
 # tags ={
-#     Name = "web-tier-2"
+#     Name = "application-tier-2"
 #     Owner = "adex"
 
 # }

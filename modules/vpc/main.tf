@@ -3,6 +3,7 @@ resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
   tags = {
     "Name" = "hamropatro_vpc"
+    "owner"= "Adex"
   }
 }
 #creating public and private subnet
@@ -40,6 +41,22 @@ resource "aws_subnet" "private_subnet2" {
   availability_zone = var.az[1]
   tags = {
     "Name" = "private_subnet2"
+  }
+}
+resource "aws_subnet" "private_subnet3" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet3
+  availability_zone = var.az[0]
+  tags = {
+    "Name" = "private_subnet3"
+  }
+}
+resource "aws_subnet" "private_subnet4" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet4
+  availability_zone = var.az[1]
+  tags = {
+    "Name" = "private_subnet4"
   }
 }
 
@@ -95,6 +112,17 @@ resource "aws_route_table" "privatert" {
     Name = "private_rt"
   }
 }
+#creating a route table for private subnet
+resource "aws_route_table" "privatert2" {
+  vpc_id = aws_vpc.main.id
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat_gw.id
+  }
+  tags = {
+    Name = "private_rt2"
+  }
+}
 
 #creating a private subnet route table association
 resource "aws_route_table_association" "privateRTA1" {
@@ -104,4 +132,12 @@ resource "aws_route_table_association" "privateRTA1" {
 resource "aws_route_table_association" "privateRTA2" {
   subnet_id      = aws_subnet.private_subnet2.id
   route_table_id = aws_route_table.privatert.id
+}
+resource "aws_route_table_association" "privateRTA3" {
+  subnet_id      = aws_subnet.private_subnet3.id
+  route_table_id = aws_route_table.privatert2.id
+}
+resource "aws_route_table_association" "privateRTA4" {
+  subnet_id      = aws_subnet.private_subnet4.id
+  route_table_id = aws_route_table.privatert2.id
 }

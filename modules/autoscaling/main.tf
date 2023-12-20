@@ -50,11 +50,11 @@ resource "aws_autoscaling_group" "as-autoscaling" {
     "GroupInServiceInstances",
     "GroupTotalInstances"
   ]
-  tags = [{
+  tag {
     key                 = "Name"
     value               = "web-tier"
     propagate_at_launch = true
-  }]
+  }
 }
 #scale up policy
 resource "aws_autoscaling_policy" "as-scaleup" {
@@ -111,6 +111,6 @@ resource "aws_cloudwatch_metric_alarm" "scale_down_alarm" {
 #Attachment of target group and autoscaling
 resource "aws_autoscaling_attachment" "as-attach" {
   autoscaling_group_name = aws_autoscaling_group.as-autoscaling.id
-  alb_target_group_arn   = var.target_group_arn
+  lb_target_group_arn   = var.target_group_arn
   # policy_arn                          = aws_autoscaling_policy.as_policy.arn
 }

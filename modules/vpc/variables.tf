@@ -34,3 +34,15 @@ variable "private_subnet2" {
   description = "private2 subnet for instance"
 
 }
+variable "private_subnet3" {
+  type        = string
+  default     = ""
+  description = "private3 subnet for instance"
+
+}
+variable "private_subnet4" {
+  type        = string
+  default     = ""
+  description = "private4 subnet for instance"
+
+}

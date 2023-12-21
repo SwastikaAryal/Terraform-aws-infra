@@ -1,5 +1,5 @@
 
-scp -i your-private-key ./adex-hamropatro.pem  ubuntu@3.81.206.226:/home/ubuntu
+scp -i your-private-key ./adex-hamropatro.pem  ubuntu@public_ip_address:/home/ubuntu
 ssh -i "your-private-key " ubuntu@Public_ip_address
 ssh -i "your-private-key " ubuntu@Private_ip_address
 

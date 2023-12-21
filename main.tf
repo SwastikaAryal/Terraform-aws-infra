@@ -1,14 +1,10 @@
 module "ec2" {
-  source         = "./modules/ec2"
-  instance_type  = "t2.micro"
-  vpc_id         = module.vpc.vpc_id
+  source          = "./modules/ec2"
+  instance_type   = "t2.micro"
+  vpc_id          = module.vpc.vpc_id
   private_subnet1 = module.vpc.private_subnet2
-# }
-# module "rds_ec2" {
-#   source         = "./modules/ec2"
-#   vpc_id         = module.vpc.vpc_id
   private_subnet2 = module.vpc.private_subnet3
-  public_subnet = module.vpc.public_subnet[0]
+  public_subnet   = module.vpc.public_subnet[0]
 }
 module "vpc" {
   source          = "./modules/vpc"

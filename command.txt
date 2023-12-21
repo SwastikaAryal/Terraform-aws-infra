@@ -1,0 +1,18 @@
+
+scp -i your-private-key ./adex-hamropatro.pem  ubuntu@3.81.206.226:/home/ubuntu
+ssh -i "your-private-key " ubuntu@Public_ip_address
+ssh -i "your-private-key " ubuntu@Private_ip_address
+
+sudo apt update
+sudo apt install mysql-server
+mysql -h -u root -p
+show databases;
+use todolist;
+show tables;
+
+
+
+
+
+
+
